@@ -10,6 +10,14 @@ public class Quantity {
     @Column(name = "Measure")
     private String measure;
 
+    public Quantity() {
+    }
+
+    public Quantity(double quantity, String measure) {
+        this.quantity = quantity;
+        this.measure = measure;
+    }
+
     public double getQuantity() {
         return quantity;
     }

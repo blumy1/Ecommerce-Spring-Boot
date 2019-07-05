@@ -19,10 +19,11 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderedAt;
     @ManyToOne
+    @JsonBackReference
     private User user;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
     @JsonManagedReference
-    private Set<OrderDetails> orderDetails = new HashSet<>();
+    private Set<OrderDetail> orderDetails = new HashSet<>();
 
     public User getUser() {
         return user;
@@ -32,11 +33,11 @@ public class Order {
         this.user = user;
     }
 
-    public Set<OrderDetails> getOrderDetails() {
+    public Set<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setOrderDetails(Set<OrderDetails> orderDetails) {
+    public void setOrderDetails(Set<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
 

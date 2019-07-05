@@ -5,11 +5,16 @@ import blumek.sb.ecommercespringboot.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductServiceImpl implements ProductService {
+    private final ProductRepository productRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Iterable<Product> getAllProducts() {
@@ -18,7 +23,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Integer id) {
-        return productRepository.findById(id).orElseGet(Product::new);
+        Optional<Product> productOptional = productRepository.findById(id);
+        return productOptional.orElse(null);
     }
 
     @Override

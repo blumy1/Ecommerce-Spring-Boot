@@ -11,6 +11,14 @@ public class Price {
     @Column(name = "Currency", nullable = false, length = 20)
     private String currency;
 
+    public Price() {
+    }
+
+    public Price(BigDecimal amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }

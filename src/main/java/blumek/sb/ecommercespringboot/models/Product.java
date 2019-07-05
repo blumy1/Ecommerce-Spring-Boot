@@ -1,7 +1,5 @@
 package blumek.sb.ecommercespringboot.models;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,6 +12,11 @@ public class Product {
     private Integer id;
     @Column(name = "Name")
     private String name;
+    @Column(name = "Description")
+    @Lob
+    private String description;
+    @Column(name = "ImageUrl")
+    private String imageUrl;
     @Embedded
     private Price price;
     @Embedded
@@ -21,6 +24,26 @@ public class Product {
     @Column(name = "CreatedAt")
     @Temporal(TemporalType.DATE)
     private Date createdAt;
+
+    public Product() {
+    }
+
+    public Product(String name, String description, String imageUrl, Price price, Quantity quantity, Date createdAt) {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
+        this.quantity = quantity;
+        this.createdAt = createdAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public Integer getId() {
         return id;
@@ -60,5 +83,13 @@ public class Product {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

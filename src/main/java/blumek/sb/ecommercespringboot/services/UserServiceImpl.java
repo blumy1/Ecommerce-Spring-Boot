@@ -5,11 +5,16 @@ import blumek.sb.ecommercespringboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public Iterable<User> getAllUsers() {
@@ -18,7 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Integer id) {
-        return userRepository.findById(id).orElseGet(User::new);
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.orElse(null);
+
     }
 
     @Override

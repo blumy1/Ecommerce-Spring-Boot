@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 @Entity
-public class OrderDetails {
+public class OrderDetail {
     @Id
     @GeneratedValue
     @Column(name = "Id")

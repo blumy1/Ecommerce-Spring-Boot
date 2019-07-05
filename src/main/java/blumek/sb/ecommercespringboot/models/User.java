@@ -28,11 +28,22 @@ public class User {
     @Column(name = "CreatedAt")
     private Date createdAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Address> addresses = new HashSet<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Order> orders = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(String login, String password, String email, String firstName, String lastName, Date createdAt, Set<Address> addresses) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.createdAt = createdAt;
+        this.addresses = addresses;
+    }
 
     public Set<Order> getOrders() {
         return orders;

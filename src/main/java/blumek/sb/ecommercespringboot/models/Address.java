@@ -21,7 +21,19 @@ public class Address {
     private String house;
     @ManyToOne
     @JoinColumn(name = "UserId")
+    @JsonBackReference
     private User user;
+
+    public Address() {
+    }
+
+    public Address(String country, String city, String zipCode, String street, String house) {
+        this.country = country;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.street = street;
+        this.house = house;
+    }
 
     public Integer getId() {
         return id;
