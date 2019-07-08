@@ -1,7 +1,7 @@
-#E-Commerce-Spring-Boot
+# E-Commerce-Spring-Boot
 Simple Spring E-commerce REST API. Project has been started only in educational purposes.
 
-##TODO
+## TODO
 - Requests authorization
 - Response pagination
 - Request filters
