@@ -1,8 +1,11 @@
 package blumek.sb.ecommercespringboot.controllers;
 
+import blumek.sb.ecommercespringboot.exceptions.UserEmptyException;
 import blumek.sb.ecommercespringboot.models.User;
 import blumek.sb.ecommercespringboot.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +20,11 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login")
-    public Integer login(@RequestBody User user) {
-        return authService.login(user.getEmail(), user.getPassword());
+    public ResponseEntity<Object> login(@RequestBody User user) {
+        if (user == null || user.getEmail() == null || user.getPassword() == null)
+            throw new UserEmptyException();
+
+        Integer id = authService.login(user.getEmail(), user.getPassword());
+        return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 }

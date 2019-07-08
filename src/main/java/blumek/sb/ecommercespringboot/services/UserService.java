@@ -7,4 +7,5 @@ public interface UserService {
     User getUserById(Integer id);
     User saveUser(User product);
     void deleteUser(Integer id);
+    boolean exists(Integer id);
 }

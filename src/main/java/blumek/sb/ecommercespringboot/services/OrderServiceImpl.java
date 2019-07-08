@@ -33,6 +33,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public boolean exists(Integer id) {
+        return orderRepository.existsById(id);
+    }
+
+    @Override
     public void deleteOrder(Integer id) {
         orderRepository.deleteById(id);
     }

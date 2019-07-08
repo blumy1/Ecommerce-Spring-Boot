@@ -28,6 +28,11 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     }
 
     @Override
+    public boolean exists(Integer id) {
+        return orderDetailsRepository.existsById(id);
+    }
+
+    @Override
     public void deleteOrderDetail(Integer id) {
         orderDetailsRepository.deleteById(id);
     }

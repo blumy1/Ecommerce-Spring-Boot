@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderDetailsRepository extends CrudRepository<OrderDetail, Integer> {
+    boolean existsById(Integer id);
 }

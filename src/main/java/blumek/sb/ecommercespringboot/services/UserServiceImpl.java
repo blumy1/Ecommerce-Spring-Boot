@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public boolean exists(Integer id) {
+        return userRepository.existsById(id);
+    }
 }

@@ -7,4 +7,5 @@ public interface OrderService {
     Order getOrderById(Integer id);
     Order saveOrder(Order order);
     void deleteOrder(Integer id);
+    boolean exists(Integer id);
 }

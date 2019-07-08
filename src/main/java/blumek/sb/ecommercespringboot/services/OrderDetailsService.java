@@ -6,4 +6,5 @@ public interface OrderDetailsService {
     OrderDetail getOrderDetailById(Integer id);
     OrderDetail saveOrderDetail(OrderDetail orderDetail);
     void deleteOrderDetail(Integer id);
+    boolean exists(Integer id);
 }
