@@ -1,6 +1,6 @@
 package blumek.sb.ecommercespringboot.controllers;
 
-import blumek.sb.ecommercespringboot.exceptions.UserEmptyException;
+import blumek.sb.ecommercespringboot.exceptions.EmptyResourceException;
 import blumek.sb.ecommercespringboot.models.User;
 import blumek.sb.ecommercespringboot.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
         if (user == null || user.getEmail() == null || user.getPassword() == null)
-            throw new UserEmptyException();
+            throw new EmptyResourceException();
 
         Integer id = authService.login(user.getEmail(), user.getPassword());
         return ResponseEntity.status(HttpStatus.OK).body(id);

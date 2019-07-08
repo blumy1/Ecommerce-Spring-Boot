@@ -1,9 +1,9 @@
 package blumek.sb.ecommercespringboot.controllers;
 
-import blumek.sb.ecommercespringboot.exceptions.IdNotPositiveException;
-import blumek.sb.ecommercespringboot.exceptions.OrderEmptyException;
-import blumek.sb.ecommercespringboot.exceptions.OrderNotFoundException;
-import blumek.sb.ecommercespringboot.exceptions.OrderUnsaveableException;
+import blumek.sb.ecommercespringboot.exceptions.EmptyResourceException;
+import blumek.sb.ecommercespringboot.exceptions.IllegalIdException;
+import blumek.sb.ecommercespringboot.exceptions.ResourceNotFoundException;
+import blumek.sb.ecommercespringboot.exceptions.ResourceNotSaveableException;
 import blumek.sb.ecommercespringboot.models.Order;
 import blumek.sb.ecommercespringboot.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +32,11 @@ public class OrderController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getOrder(@PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         Order order = orderService.getOrderById(id);
         if (order == null)
-            throw new OrderNotFoundException(id);
+            throw new ResourceNotFoundException(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
@@ -44,7 +44,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Object> saveOrder(@RequestBody Order order) {
         if (order == null)
-            throw new OrderEmptyException();
+            throw new EmptyResourceException();
 
         if (order.getId() != null)
             order.setId(null);
@@ -53,7 +53,7 @@ public class OrderController {
 
         Order savedOrder = orderService.saveOrder(order);
         if (savedOrder == null)
-            throw new OrderUnsaveableException();
+            throw new ResourceNotSaveableException();
 
         return ResponseEntity.status(HttpStatus.OK).body(savedOrder);
     }
@@ -61,15 +61,15 @@ public class OrderController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateProducts(@RequestBody Order order, @PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         if (!orderService.exists(id))
-            throw new OrderNotFoundException(id);
+            throw new ResourceNotFoundException(id);
 
         order.setId(id);
         Order savedOrder = orderService.saveOrder(order);
         if (savedOrder == null)
-            throw new OrderUnsaveableException();
+            throw new ResourceNotSaveableException();
 
         return ResponseEntity.status(HttpStatus.OK).body(savedOrder);
     }
@@ -77,7 +77,7 @@ public class OrderController {
     @DeleteMapping(value = "/{id}")
     public void deleteOrder(@PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         orderService.deleteOrder(id);
     }

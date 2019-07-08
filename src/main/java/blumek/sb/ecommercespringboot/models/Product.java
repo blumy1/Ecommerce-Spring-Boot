@@ -19,8 +19,6 @@ public class Product {
     private String imageUrl;
     @Embedded
     private Price price;
-    @Embedded
-    private Quantity quantity;
     @Column(name = "CreatedAt")
     @Temporal(TemporalType.DATE)
     private Date createdAt;
@@ -28,12 +26,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String description, String imageUrl, Price price, Quantity quantity, Date createdAt) {
+    public Product(String name, String description, String imageUrl, Price price, Date createdAt) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
         this.price = price;
-        this.quantity = quantity;
         this.createdAt = createdAt;
     }
 
@@ -57,10 +54,6 @@ public class Product {
         return price;
     }
 
-    public Quantity getQuantity() {
-        return quantity;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
@@ -71,10 +64,6 @@ public class Product {
 
     public void setPrice(Price price) {
         this.price = price;
-    }
-
-    public void setQuantity(Quantity quantity) {
-        this.quantity = quantity;
     }
 
     public Date getCreatedAt() {

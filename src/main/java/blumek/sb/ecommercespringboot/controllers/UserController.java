@@ -1,9 +1,9 @@
 package blumek.sb.ecommercespringboot.controllers;
 
-import blumek.sb.ecommercespringboot.exceptions.IdNotPositiveException;
-import blumek.sb.ecommercespringboot.exceptions.UserEmptyException;
-import blumek.sb.ecommercespringboot.exceptions.UserNotFoundException;
-import blumek.sb.ecommercespringboot.exceptions.UserUnsaveableException;
+import blumek.sb.ecommercespringboot.exceptions.EmptyResourceException;
+import blumek.sb.ecommercespringboot.exceptions.IllegalIdException;
+import blumek.sb.ecommercespringboot.exceptions.ResourceNotFoundException;
+import blumek.sb.ecommercespringboot.exceptions.ResourceNotSaveableException;
 import blumek.sb.ecommercespringboot.models.User;
 import blumek.sb.ecommercespringboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +32,11 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getUser(@PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         User user = userService.getUserById(id);
         if (user == null)
-            throw new UserNotFoundException(id);
+            throw new ResourceNotFoundException(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
@@ -44,7 +44,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Object> saveUser(@RequestBody User user) {
         if (user == null)
-            throw new UserEmptyException();
+            throw new EmptyResourceException();
 
         if (user.getId() != null)
             user.setId(null);
@@ -53,7 +53,7 @@ public class UserController {
 
         User savedUser = userService.saveUser(user);
         if (savedUser == null)
-            throw new UserUnsaveableException();
+            throw new ResourceNotSaveableException();
 
         return ResponseEntity.status(HttpStatus.OK).body(savedUser);
     }
@@ -61,15 +61,15 @@ public class UserController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateUser(@RequestBody User user, @PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         if (!userService.exists(id))
-            throw new UserNotFoundException(id);
+            throw new ResourceNotFoundException(id);
 
         user.setId(id);
         User savedUser = userService.saveUser(user);
         if (savedUser == null)
-            throw new UserUnsaveableException();
+            throw new ResourceNotSaveableException();
 
         return ResponseEntity.status(HttpStatus.OK).body(savedUser);
     }
@@ -77,7 +77,7 @@ public class UserController {
     @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         userService.deleteUser(id);
     }

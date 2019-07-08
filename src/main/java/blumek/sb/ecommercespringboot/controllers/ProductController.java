@@ -1,9 +1,9 @@
 package blumek.sb.ecommercespringboot.controllers;
 
-import blumek.sb.ecommercespringboot.exceptions.IdNotPositiveException;
-import blumek.sb.ecommercespringboot.exceptions.ProductEmptyException;
-import blumek.sb.ecommercespringboot.exceptions.ProductNotFoundException;
-import blumek.sb.ecommercespringboot.exceptions.ProductUnsaveableException;
+import blumek.sb.ecommercespringboot.exceptions.EmptyResourceException;
+import blumek.sb.ecommercespringboot.exceptions.IllegalIdException;
+import blumek.sb.ecommercespringboot.exceptions.ResourceNotFoundException;
+import blumek.sb.ecommercespringboot.exceptions.ResourceNotSaveableException;
 import blumek.sb.ecommercespringboot.models.Product;
 import blumek.sb.ecommercespringboot.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +32,11 @@ public class ProductController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getProduct(@PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         Product product = productService.getProductById(id);
         if (product == null)
-            throw new ProductNotFoundException(id);
+            throw new ResourceNotFoundException(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(product);
     }
@@ -44,7 +44,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Object> saveProduct(@RequestBody Product product) {
         if (product == null)
-            throw new ProductEmptyException();
+            throw new EmptyResourceException();
 
         if (product.getId() != null)
             product.setId(null);
@@ -53,7 +53,7 @@ public class ProductController {
 
         Product savedProduct = productService.saveProduct(product);
         if (savedProduct == null)
-            throw new ProductUnsaveableException();
+            throw new ResourceNotSaveableException();
 
         return ResponseEntity.status(HttpStatus.OK).body(savedProduct);
     }
@@ -61,15 +61,15 @@ public class ProductController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateProducts(@RequestBody Product product, @PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         if (!productService.exists(id))
-            throw new ProductNotFoundException(id);
+            throw new ResourceNotFoundException(id);
 
         product.setId(id);
         Product savedProduct = productService.saveProduct(product);
         if (savedProduct == null)
-            throw new ProductUnsaveableException();
+            throw new ResourceNotSaveableException();
 
         return ResponseEntity.status(HttpStatus.OK).body(savedProduct);
     }
@@ -77,10 +77,10 @@ public class ProductController {
     @DeleteMapping(value = "/{id}")
     public void deleteProduct(@PathVariable Integer id) {
         if (id <= 0)
-            throw new IdNotPositiveException();
+            throw new IllegalIdException();
 
         if (!productService.exists(id))
-            throw new ProductNotFoundException(id);
+            throw new ResourceNotFoundException(id);
 
         productService.deleteProduct(id);
     }
